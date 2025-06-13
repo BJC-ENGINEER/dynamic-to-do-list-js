@@ -1,45 +1,49 @@
-// Wait for the DOM to load before running the script
+// Run this script after DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-// Select elements
+// Select DOM elements
 const addButton = document.getElementById('add-task-btn');
 const taskInput = document.getElementById('task-input');
 const taskList = document.getElementById('task-list');
 
-// Function to add a new task
+// Function to add a task
 function addTask() {
-const taskText = taskInput.value.trim(); // Get input and remove spaces
+const taskText = taskInput.value.trim();
 
-if (taskText === "") {
-alert("Please enter a task.");
+// Only add if not empty
+if (taskText === '') {
+    alert('Please enter a task.');
 return;
 }
 
-// Create new list item (li)
-const taskItem = document.createElement('li');
-taskItem.textContent = taskText;
+// Create <li> for the task
+const li = document.createElement('li');
+li.textContent = taskText;
 
 // Create remove button
-const removeBtn = document.createElement('button');
-removeBtn.textContent = 'Remove';
-removeBtn.className = 'remove-btn';
+const removeButton = document.createElement('button');
+removeButton.textContent = 'Remove';
+removeButton.className = 'remove-btn';
 
-// Add event to remove this task when button is clicked
-removeBtn.onclick = function () {
-taskList.removeChild(taskItem);
-};
+// Event listener for removing task
+removeButton.addEventListener('click', () => {
+li.remove(); // Remove the <li> element itself
+});
 
-// Append button to task item, then add to the list
-taskItem.appendChild(removeBtn);
-taskList.appendChild(taskItem);
+// Append remove button to task item
+li.appendChild(removeButton);
 
-// Clear input field
+// Add task to the list
+taskList.appendChild(li);
+
+// Clear the input field
 taskInput.value = '';
 }
 
-// Add event listeners
+// Add task on button click
 addButton.addEventListener('click', addTask);
 
-taskInput.addEventListener('keypress', function(event) {
+// Add task on pressing Enter
+taskInput.addEventListener('keypress', (event) => {
 if (event.key === 'Enter') {
 addTask();
 }
