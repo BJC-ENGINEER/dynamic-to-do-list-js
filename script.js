@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+// Select elements
 const addButton = document.getElementById('add-task-btn');
 const taskInput = document.getElementById('task-input');
 const taskList = document.getElementById('task-list');
 
+// Function to add task
 function addTask() {
 const taskText = taskInput.value.trim();
 
@@ -11,27 +13,35 @@ alert('Please enter a task.');
 return;
 }
 
+// Create <li> element and set textContent directly
 const li = document.createElement('li');
+li.textContent = taskText;
 
-// Use textNode to avoid textContent overwrite issues
-const textNode = document.createTextNode(taskText);
-li.appendChild(textNode);
-
+// Create "Remove" button
 const removeButton = document.createElement('button');
 removeButton.textContent = 'Remove';
 removeButton.className = 'remove-btn';
 
-removeButton.addEventListener('click', () => {
-li.remove();
-});
+// Use onclick instead of addEventListener
+removeButton.onclick = function () {
+taskList.removeChild(li);
+};
 
+// Append button after textContent has been set
 li.appendChild(removeButton);
+
+// Add the list item to the task list
 taskList.appendChild(li);
+
+// Clear the input field
 taskInput.value = '';
 }
+
+// Add task on button click
 addButton.addEventListener('click', addTask);
 
-taskInput.addEventListener('keypress', (event) => {
+// Add task on Enter key press
+taskInput.addEventListener('keypress', function (event) {
 if (event.key === 'Enter') {
 addTask();
 }
